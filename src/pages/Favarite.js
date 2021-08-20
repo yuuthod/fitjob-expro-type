@@ -1,5 +1,5 @@
 const Favarite = () => {
-  return <h1>Favarite</h1>;
-};
+  return <h1>Favarite</h1>
+}
 
-export default Favarite;
+export default Favarite

@@ -7,7 +7,7 @@ import { getQueryString } from '../utils/misc'
  * @param {string} params 쿼리스트링
  * @param {map} headers api 호출 조건
  * @param {any} initialData
- * @param {func} storeStorage 데이터를 저장하는 함수 
+ * @param {func} storeStorage 데이터를 저장하는 함수
  * @param {func} getShouldFetch fetchData를 실행할 조건 함수
  * @returns {Object} 데이터, 로딩유무, 에러유무, 발생된 에러
  */
@@ -28,9 +28,8 @@ export function useFetch(apiUrl, params, headers, initialData, storeStorage, get
           headers,
         })
         const data = await response.json()
-        console.log(data);
         // 이전 데이터와 합해서 data에 저장
-        setData((previousData => previousData.concat(data)))
+        setData(previousData => previousData.concat(data))
         // param에서 넘어온 localStorage에 저장하는 함수를 이용해 데이터 저장
         storeStorage(data)
       } catch (error) {

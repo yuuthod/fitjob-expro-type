@@ -5,7 +5,7 @@ const Home = () => {
       <h1>Home Page</h1>
       <CatList />
     </div>
-  );
-};
+  )
+}
 
-export default Home;
+export default Home

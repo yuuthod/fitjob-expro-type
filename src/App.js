@@ -1,9 +1,9 @@
-import "./App.css";
-import { Switch, Link, Route, BrowserRouter } from "react-router-dom";
+import './App.css'
+import { Switch, Link, Route, BrowserRouter } from 'react-router-dom'
 
-import Home from "./pages/Home";
-import Favarite from "./pages/Favarite";
-import CatDetail from "./pages/CatDetail";
+import Home from './pages/Home'
+import Favarite from './pages/Favarite'
+import CatDetail from './pages/CatDetail'
 
 const Navigation = () => {
   return (
@@ -17,8 +17,8 @@ const Navigation = () => {
         </li>
       </ul>
     </nav>
-  );
-};
+  )
+}
 
 function App() {
   return (
@@ -35,10 +35,10 @@ function App() {
         </main>
       </BrowserRouter>
     </div>
-  );
+  )
 }
 
-export default App;
+export default App
 
 function UrlFallback() {
   return (
@@ -46,5 +46,5 @@ function UrlFallback() {
       존재하지 않는 페이지 입니다.
       <Link to="/">홈페이지로 가기</Link>
     </div>
-  );
+  )
 }

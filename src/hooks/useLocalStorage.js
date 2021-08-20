@@ -13,7 +13,7 @@ export function useLocalStorage(key, initialValue) {
   })
 
   // localStorage에 저장하는 save 함수
-  const save = (value) => {
+  const save = value => {
     try {
       // value값을 JSON 문자열로 변환해 저장
       localStorage.setItem(key, JSON.stringify(value))
