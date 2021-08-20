@@ -1,21 +1,17 @@
 import '../components/CatList.scss'
 
-import { useCallback, useEffect, useState } from 'react'
-import { useLocalStorage } from '../hooks/useLocalStorage'
+import { useContext, useEffect, useState } from 'react'
+import LocalStorageContext from '../store/LocalStorageContext'
 
 import CatItem from '../components/CatItem'
 
 const Favarite = () => {
-  const [storedBreeds] = useLocalStorage('breeds', [])
-  const [storedFavariteList, storeFavariteList] = useLocalStorage('favariteList', [])
+
+  const context = useContext(LocalStorageContext)
+  const {storedFavariteList, storeFavariteList, storedBreeds} = context
+
   const [favariteList, setFavariteList] = useState([])
-  const handleClickRemoveFavarite = useCallback(
-    id => {
-      const removedList = storedFavariteList.filter(itemId => itemId !== id)
-      storeFavariteList(removedList)
-    },
-    [storedFavariteList]
-  )
+
   useEffect(() => {
     setFavariteList(storedBreeds.filter(item => storedFavariteList.includes(item.id)))
   }, [storedFavariteList])
@@ -24,7 +20,7 @@ const Favarite = () => {
       <h1>Favarite</h1>
       <ul>
         {favariteList.map((item, index) => (
-          <CatItem key={`${item.id}-${index}`} item={item} handleClickRemoveFavarite={handleClickRemoveFavarite} />
+          <CatItem key={`${item.id}-${index}`} item={item}/>
         ))}
       </ul>
     </div>

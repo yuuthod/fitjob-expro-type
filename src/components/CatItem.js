@@ -1,19 +1,17 @@
 import { useHistory } from 'react-router-dom'
-import { useCallback } from 'react'
+import { useCallback, useContext } from 'react'
 
-import { useLocalStorage } from '../hooks/useLocalStorage'
+import LocalStorageContext from '../store/LocalStorageContext'
+
+import FavariteButton from './FavariteButton'
 
 const CatItem = ({
   item,
-  // 즐겨찾기에 추가된 항목인지 알려주는 값
-  isFavariteItem,
-  // 즐겨찾기 추가 함수
-  handleClickAddFavarite,
-  // 즐겨찾기 삭제 함수
-  handleClickRemoveFavarite,
 }) => {
-  // 즐겨찾기 리스트
-  const [storedFavariteList] = useLocalStorage('favariteList', [])
+  // 즐겨찾기 Context
+  const context = useContext(LocalStorageContext)
+  const {storedFavariteList, storeFavariteList} = context
+  
   const history = useHistory()
   /**
    * cat 상세페이지 이동
@@ -25,9 +23,7 @@ const CatItem = ({
 
   return (
     <li className="Cat">
-      <div>{isFavariteItem && <span>추가된 항목</span>}</div>
-      {handleClickAddFavarite && <button onClick={() => handleClickAddFavarite(item.id)}>추가</button>}
-      {handleClickRemoveFavarite && <button onClick={() => handleClickRemoveFavarite(item.id)}>삭제</button>}
+      <FavariteButton id={item.id}/>
       <span>Name: {item.name}</span>
       <span>Origin: {item.origin}</span>
       <span>Description: {item.description}</span>

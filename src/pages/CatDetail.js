@@ -1,20 +1,18 @@
+import '../components/CatDetail.scss'
+
 import { useEffect, useMemo, useState } from 'react'
 import { useParams } from 'react-router'
 import { useFetch } from '../hooks/useFetch'
 import { useLocalStorage } from '../hooks/useLocalStorage'
 import { catApiUrl, catHeaders } from '../utils/api'
 
+import FavariteButton from '../components/FavariteButton'
+
 const CatDetail = () => {
-  const [storedSearchIdList, storeSearchIdList] = useLocalStorage('catImagesId', [])
-  const [storedSearchCats, storeSearchCats] = useLocalStorage('catImages', [])
+  const [storedCatImagesId, storeCatImagesId] = useLocalStorage('catImagesId', [])
+  const [storedCarImages, storeCatImages] = useLocalStorage('catImages', [])
   const [cat, setCat] = useState({})
   const { catId } = useParams()
-  const params = useMemo(
-    () => ({
-      q: `${catId}`,
-    }),
-    [catId]
-  )
   const {
     data: cats,
     isLoading,
@@ -24,27 +22,22 @@ const CatDetail = () => {
     `${catApiUrl}/images/${catId}`,
     {},
     catHeaders,
-    storedSearchCats,
+    storedCarImages,
     newData => {
       console.log(newData.length)
-      storeSearchCats(storedSearchCats.concat(newData.length !== 0 ? newData : [{ id: catId, name: '' }]))
+      storeCatImages(storedCarImages.concat(newData.length !== 0 ? newData : [{ id: catId, name: '' }]))
     },
     () => {
-      const hasFetched = storedSearchIdList.includes(catId)
+      const hasFetched = storedCatImagesId.includes(catId)
       if (!hasFetched) {
-        storeSearchIdList(storedSearchIdList.concat(catId))
+        storeCatImagesId(storedCatImagesId.concat(catId))
       }
       return !hasFetched
     }
   )
   useEffect(() => {
     setCat(
-      cats.find(cat => {
-        if (cat.id === catId) {
-          console.log(cat.breeds[0].name)
-          return cat
-        }
-      })
+      cats.find(cat => cat.id === catId)
     )
   }, [cats])
   return (
@@ -54,16 +47,17 @@ const CatDetail = () => {
         <>
           {isLoading && <div>로딩중</div>}
           {cat && (
-            <>
+            <div className="CatDetail">
               <img src={cat.url} />
               {cat.breeds &&
                 cat.breeds.map(breed => (
                   <div key={`${breed.id}-${breed.name}`}>
-                    <div>{breed.name}</div>
+                    <FavariteButton id={breed.id}/>
+                    <p className="CatName">{breed.name}</p>
                     <div>{breed.description}</div>
                   </div>
                 ))}
-            </>
+            </div>
           )}
         </>
       ) : (
