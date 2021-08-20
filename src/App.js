@@ -3,7 +3,7 @@ import { Switch, Link, Route, BrowserRouter } from "react-router-dom";
 
 import Home from "./pages/Home";
 import Favarite from "./pages/Favarite";
-import Cat from "./pages/Cat";
+import CatDetail from "./pages/CatDetail";
 
 const Navigation = () => {
   return (
@@ -29,7 +29,7 @@ function App() {
           <Switch>
             <Route exact path="/" component={Home} />
             <Route exact path="/favarite" component={Favarite} />
-            <Route path="/cat/:catId" component={Cat} />
+            <Route path="/cat/:catId" component={CatDetail} />
             <Route component={UrlFallback} />
           </Switch>
         </main>
