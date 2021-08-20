@@ -1,20 +1,22 @@
 import '../components/CatList.scss'
 
-import { useHistory } from 'react-router-dom'
 import { useState, useMemo, useCallback } from 'react'
 
 import { catApiUrl, catHeaders } from '../utils/api'
 import { useLocalStorage } from '../hooks/useLocalStorage'
 import { useFetch } from '../hooks/useFetch'
 
+import CatItem from '../components/CatItem'
+
 const CatList = () => {
-  const history = useHistory()
   // localStorage에 저장된 cats data list
   const [storedBreeds, storeBreeds] = useLocalStorage('breeds', [])
   // locaStorage에 저장된(호출된) 페이지 리스트
   const [storedPages, storePages] = useLocalStorage('fetchedPages', [])
   // 현재 페이지, storePages의 맨 마지막 값
   const [currentPage, setCurrentPage] = useState(storedPages.length !== 0 ? storedPages[storedPages.length - 1] : 1)
+  // 즐겨찾기 리스트
+  const [storedFavariteList, storeFavariteList] = useLocalStorage('favariteList', [])
 
   // api를 호출할 때의 params 값
   const params = useMemo(
@@ -51,36 +53,22 @@ const CatList = () => {
       return !hasFetched
     }
   )
-
   const handleNextPage = useCallback(() => {
     setCurrentPage(previousPage => previousPage + 1)
   }, [])
 
-  /**
-   * cat 상세페이지 이동
-   * @param {string} id
-   */
-  const handleClickMoveCatDetailPage = useCallback(id => {
-    history.push(`/cat/${id}`)
-  }, [])
+  const handleClickAddFavarite = useCallback((id) => {
+    if (!storedFavariteList.includes(id)) {
+      storeFavariteList(storedFavariteList.concat(id))
+    }
+  }, [storedFavariteList])
 
   return (
     <div className="Cats">
       <button onClick={handleNextPage}>다음페이지</button>
       <ul>
         {breeds.map((breed, index) => (
-          <li onClick={() => handleClickMoveCatDetailPage(breed.image.id)} className="Cat" key={`${breed.id}-${index}`}>
-            <span>Name: {breed.name}</span>
-            <span>Origin: {breed.origin}</span>
-            <span>Description: {breed.description}</span>
-            <span>
-              Wiki:{' '}
-              <a href={breed.wikipedia_url} target="_blank">
-                {breed.wikipedia_url}
-              </a>
-            </span>
-            <img className="Image" src={breed.image ? breed.image.url : null} />
-          </li>
+          <CatItem key={`${breed.id}-${index}`} item={breed} isFavariteItem={storedFavariteList.includes(breed.id)} handleClickAddFavarite={handleClickAddFavarite} />
         ))}
       </ul>
     </div>
