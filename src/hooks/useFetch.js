@@ -20,7 +20,6 @@ export function useFetch(apiUrl, params, headers, initialData, storeStorage, get
     const fetchData = async () => {
       try {
         setIsLoading(true)
-
         const response = await fetch(`${apiUrl}${getQueryString(params)}`, {
           method: 'GET',
           mode: 'cors',
@@ -29,7 +28,7 @@ export function useFetch(apiUrl, params, headers, initialData, storeStorage, get
         })
         const data = await response.json()
         // 이전 데이터와 합해서 data에 저장
-        setData(previousData => previousData.concat(data))
+        setData( previousData => previousData.concat(data))
         // param에서 넘어온 localStorage에 저장하는 함수를 이용해 데이터 저장
         storeStorage(data)
       } catch (error) {

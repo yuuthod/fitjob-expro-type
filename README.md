@@ -6,12 +6,12 @@
 - [x] 어떤 페이지에서도 다른 페이지로 이동할 수 있도록 네비게이션 만들기
 -  페이지 만들기
     - [x] / -> Home(Cat List)
-      - favorite 버튼 만들기 -> 로컬 스토리지에 고양이 저장
+      - [ ] favorite 버튼 만들기 -> 로컬 스토리지에 고양이 저장
     - [ ] Favorite Cats(Cat List)
-    - [ ] /cat/:catId -> Cat Detail
-      - catId를 이용해서 고양이 상세 api 호출
-      - favorite 버튼 만들기 -> 로컬 스토리지에 고양이 저장
-        - 추가/삭제하는 기능
+    - [x] /cat/:catId -> Cat Detail
+      - [x] catId를 이용해서 고양이 상세 api 호출
+      - [ ] favorite 버튼 만들기 -> 로컬 스토리지에 고양이 저장
+      - [ ] 추가/삭제하는 기능
 - [x] 커스텀 훅 만들어서 사용하기
   - API 호출을 위한 Hook
   - 로컬스토리지 혹은 세션스토리지를 사용하는 Hook
