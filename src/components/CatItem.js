@@ -1,17 +1,11 @@
 import { useHistory } from 'react-router-dom'
-import { useCallback, useContext } from 'react'
-
-import LocalStorageContext from '../store/LocalStorageContext'
+import { useCallback } from 'react'
 
 import FavariteButton from './FavariteButton'
 
 const CatItem = ({
   item,
 }) => {
-  // 즐겨찾기 Context
-  const context = useContext(LocalStorageContext)
-  const {storedFavariteList, storeFavariteList} = context
-  
   const history = useHistory()
   /**
    * cat 상세페이지 이동

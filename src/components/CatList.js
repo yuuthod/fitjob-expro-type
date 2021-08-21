@@ -1,22 +1,17 @@
 import '../components/CatList.scss'
 
-import { useState, useMemo, useCallback, useContext } from 'react'
+import { useMemo, useContext } from 'react'
 
 import { catApiUrl, catHeaders } from '../utils/api'
-import { useLocalStorage } from '../hooks/useLocalStorage'
 import { useFetch } from '../hooks/useFetch'
 
 import LocalStorageContext from '../store/LocalStorageContext'
 import CatItem from '../components/CatItem'
+import HeaderButtonGroup from './HeaderButtonGroup'
 
 const CatList = () => {
   const context = useContext(LocalStorageContext)
-  const { storedBreeds, storeBreeds } = context
-
-  // locaStorage에 저장된(호출된) 페이지 리스트
-  const [storedPages, storePages] = useLocalStorage('fetchedPages', [])
-  // 현재 페이지, storePages의 맨 마지막 값
-  const [currentPage, setCurrentPage] = useState(storedPages.length !== 0 ? storedPages[storedPages.length - 1] : 1)
+  const { storedBreeds, storeBreeds, storedPages, storePages, currentPage, setCurrentPage } = context
 
   // api를 호출할 때의 params 값
   const params = useMemo(
@@ -27,8 +22,9 @@ const CatList = () => {
     [currentPage]
   )
   // useFetch를 이용한 api 호출
+  // stored에 있는 값을 사용하지 않을 때 PreviousPage 이벤트가 일어나면 어떻게 data를 컨트롤 할지
   const {
-    data: breeds,
+    data,
     isLoading,
     hasError,
     error,
@@ -52,14 +48,12 @@ const CatList = () => {
       return !hasFetched
     }
   )
-  const handleNextPage = useCallback(() => {
-    setCurrentPage(previousPage => previousPage + 1)
-  }, [])
   return (
     <div className="Cats">
-      <button onClick={handleNextPage}>다음페이지</button>
+      <div>현재 페이지 : {currentPage}</div>
+      <HeaderButtonGroup />
       <ul>
-        {breeds.map((breed, index) => (
+        {storedBreeds.map((breed, index) => (
           <CatItem key={`${breed.id}-${index}`} item={breed} />
         ))}
       </ul>

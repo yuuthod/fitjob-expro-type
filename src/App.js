@@ -6,12 +6,12 @@ import Home from './pages/Home'
 import Favarite from './pages/Favarite'
 import CatDetail from './pages/CatDetail'
 import LocalStorageContext from './store/LocalStorageContext'
-import { useContext, useEffect } from 'react'
+import { useContext, useEffect, useState } from 'react'
 
 const Navigation = () => {
   return (
     <nav>
-      <ul>
+      <ul className="Nav">
         <li>
           <Link to="/">Home</Link>
         </li>
@@ -28,9 +28,24 @@ function App() {
   const [storedFavariteList, storeFavariteList] = useLocalStorage('favariteList', [])
   // Cat List
   const [storedBreeds, storeBreeds] = useLocalStorage('breeds', [])
+  // locaStorage에 저장된(호출된) 페이지 리스트
+  const [storedPages, storePages] = useLocalStorage('fetchedPages', [])
+  // 현재 페이지, storePages의 맨 마지막 값
+  const [currentPage, setCurrentPage] = useState(storedPages.length !== 0 ? storedPages[storedPages.length - 1] : 1)
   return (
-    <LocalStorageContext.Provider value={{ storedFavariteList, storeFavariteList, storedBreeds, storeBreeds }}>
-      <div>
+    <LocalStorageContext.Provider
+      value={{
+        storedFavariteList,
+        storeFavariteList,
+        storedBreeds,
+        storeBreeds,
+        storedPages,
+        storePages,
+        currentPage,
+        setCurrentPage,
+      }}
+    >
+      <div className="App">
         <BrowserRouter>
           <Navigation />
           <main>
